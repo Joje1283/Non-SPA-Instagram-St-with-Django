@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "askcompany"
+version = "0.1.0"
+description = ""
+authors = ["Jaesik <joje1283@gmail.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Django = "^4.0"
+
+[tool.poetry.dev-dependencies]
+django-debug-toolbar = "^3.2.4"
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
+
