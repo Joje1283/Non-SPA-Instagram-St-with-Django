@@ -40,7 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Third Apps
     'debug_toolbar',
+    'bootstrap4',
     # local Apps
+    'accounts',
 ]
 
 MIDDLEWARE = [
@@ -142,3 +144,5 @@ MEDIA_ROOT = BASE_DIR / 'media'
 INTERNAL_IPS = [
     "127.0.0.1",  # for debug toobar
 ]
+
+AUTH_USER_MODEL = 'accounts.User'
