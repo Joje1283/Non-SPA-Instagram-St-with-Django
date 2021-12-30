@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 """
 
 from pathlib import Path
+import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent.parent
@@ -146,3 +147,17 @@ INTERNAL_IPS = [
 ]
 
 AUTH_USER_MODEL = 'accounts.User'
+
+# Email with Send Grid (https://docs.sendgrid.com/for-developers/sending-email/django)
+SENDGRID_API_KEY = os.getenv('SENDGRID_API_KEY')
+EMAIL_HOST = 'smtp.sendgrid.net'
+EMAIL_HOST_USER = 'apikey'  # this is exactly the value 'apikey'
+EMAIL_HOST_PASSWORD = SENDGRID_API_KEY
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True
+
+ADMINS = [
+    ('Jaesik', 'joje1283@gmail.com'),
+]
+
+WELCOME_EMAIL_SENDER = 'akakbb456@naver.com'
