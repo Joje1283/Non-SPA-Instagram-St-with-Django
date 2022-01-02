@@ -161,3 +161,4 @@ ADMINS = [
 ]
 
 WELCOME_EMAIL_SENDER = 'akakbb456@naver.com'
+LOGIN_REDIRECT_URL = '/'
