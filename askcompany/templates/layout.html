@@ -45,12 +45,9 @@
               </svg>
             </a>
             <a class="p-2 text-dark" href="{% url 'profile_edit' %}">
+
             {% if user.is_authenticated %}
-              {% if user.avatar %}
-                <img src="{{ user.avatar.url }}" alt="">
-              {% else %}
-                <img src="{% url 'pydenticon_image' data=user.username %}" style="width: 24px; height: 24px">
-              {% endif %}
+              <img src="{{ user.avatar_url }}" style="width: 24px; height: 24px">
             {% endif %}
             </a>
           </nav>
