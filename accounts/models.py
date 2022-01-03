@@ -1,4 +1,5 @@
 from django.contrib.auth.models import AbstractUser
+from django.core.validators import RegexValidator
 from django.db import models
 from django.core.mail import send_mail
 from django.conf import settings
@@ -6,8 +7,16 @@ from django.template.loader import render_to_string
 
 
 class User(AbstractUser):
+    class GenderChoices(models.TextChoices):
+        MALE = 'M', '남성'
+        FEMALE = 'F', '여성'
+
     website_url = models.URLField(blank=True)
     bio = models.TextField(blank=True)
+    phone_number = models.CharField(validators=[RegexValidator(r'010-?[1-9]\d{3}-?\d{4}$')], max_length=13, blank=True)
+    gender = models.CharField(choices=GenderChoices.choices, max_length=1, blank=True)
+    avatar = models.ImageField(blank=True, upload_to='accounts/avatar/%Y/%m/%d',
+                               help_text='48px * 48px 크기의 png/jpg 파일을 업로드해주세요')
 
     def send_welcome_email(self):
         subject = render_to_string('accounts/welcome_email_subject.txt')
@@ -16,6 +25,3 @@ class User(AbstractUser):
         })
         sender_email = settings.WELCOME_EMAIL_SENDER
         return send_mail(subject, content, sender_email, [self.email], fail_silently=False)
-
-
-
