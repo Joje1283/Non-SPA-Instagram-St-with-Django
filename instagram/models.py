@@ -22,7 +22,7 @@ class Post(models.Model):
         return tag_list
 
     def get_absolute_url(self):
-        return reverse('instagram:post_detail', args={'pk': self.pk})
+        return reverse('instagram:post_detail', args=[self.pk])
 
 
 class Tag(models.Model):
