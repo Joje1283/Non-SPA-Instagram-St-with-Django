@@ -1,5 +1,4 @@
-{% load static %}
-{% load instagram_tags %}
+{% load static instagram_tags humanize %}
 <div class="card">
   <div class="card-header">
     <img src="{{ post.author.avatar_url }}" style="width: 32px; height: 32px">
@@ -7,21 +6,42 @@
   </div>
   <div class="card-body">
     <img src="{{ post.photo.url }}" alt="" style="width: 100%;">
-    {% for tag in post.tag_set.all %}
-      <span class="badge badge-primary">
+    <div>
+      {% if post|is_like_user:user %}
+        <a href="{% url 'instagram:post_unlike' post.pk %}" style="color: inherit">
+          <img src="{% static 'bootstrap-4.6.1-dist/icon/heart-fill.svg' %}" alt="heart-fill">
+        </a>
+      {% else %}
+        <a href="{% url 'instagram:post_like' post.pk %}" style="color: inherit">
+          <img src="{% static 'bootstrap-4.6.1-dist/icon/heart.svg' %}" alt="heart">
+        </a>
+      {% endif %}
+    </div>
+    <div>
+      {% for tag in post.tag_set.all %}
+        <span class="badge badge-primary">
         #{{ tag.name }}
       </span>
-    {% endfor %}
+      {% endfor %}
+    </div>
+    <div>
+      <a href="{{ post.get_absolute_url }}" style="" class="text-muted">
+        <small>
+          {{ post.created_at|naturaltime }}
+        </small>
+      </a>
+    </div>
+  <div class="comment-list mt-3 mb-3">
+  {% for comment in post.comment_set.all %}
+    <div class="comment">
+    <strong>{{ comment.author }}</strong>
+    {{ comment.message }}
+    <small class="text-muted">{{ comment.created_at|naturaltime }}</small>
+    </div>
+  {% endfor %}
+  </div>
   </div>
   <div class="card-footer">
-    {% if post|is_like_user:user %}
-      <a href="{% url 'instagram:post_unlike' post.pk %}" style="color: inherit">
-        <img src="{% static 'bootstrap-4.6.1-dist/icon/heart-fill.svg' %}" alt="heart-fill">
-      </a>
-    {% else %}
-      <a href="{% url 'instagram:post_like' post.pk %}" style="color: inherit">
-        <img src="{% static 'bootstrap-4.6.1-dist/icon/heart.svg' %}" alt="heart">
-      </a>
-    {% endif %}
+    <a href="{% url 'instagram:comment_new' post.pk %}">댓글 쓰기</a>
   </div>
 </div>
