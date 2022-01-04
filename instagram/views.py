@@ -6,10 +6,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from instagram.forms import PostForm
 from instagram.models import Tag, Post
 
+
 @login_required
 def index(request):
+    suggested_user_list = get_user_model().objects.all()
+    suggested_user_list = suggested_user_list.exclude(pk=request.user.pk)
+    suggested_user_list = suggested_user_list.exclude(pk__in=request.user.following_set.all())[:3]
     return render(request, "instagram/index.html", {
-
+        'suggested_user_list': suggested_user_list
     })
 
 
