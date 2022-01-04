@@ -6,9 +6,10 @@ authors = ["Jaesik <joje1283@gmail.com>"]
 
 [tool.poetry.dependencies]
 python = "^3.8"
-Django = "^4.0"
 django-bootstrap4 = "^21.2"
 django-pydenticon = "^0.2"
+Django = "3.2"
+easy-thumbnails = "^2.8"
 
 [tool.poetry.dev-dependencies]
 django-debug-toolbar = "^3.2.4"

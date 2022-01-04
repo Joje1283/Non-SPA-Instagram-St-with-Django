@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'debug_toolbar',
     'bootstrap4',
     'django_pydenticon',
+    'easy_thumbnails',
     # local Apps
     'accounts',
     'instagram',
