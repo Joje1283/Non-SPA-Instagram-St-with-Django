@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth import get_user_model
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect, get_object_or_404
+from django.db.models import Q
 
 from instagram.forms import PostForm
 from instagram.models import Tag, Post
@@ -9,10 +10,16 @@ from instagram.models import Tag, Post
 
 @login_required
 def index(request):
+    post_qs = Post.objects.all()
+    post_qs = post_qs.filter(
+        Q(author=request.user) |
+        Q(author__in=request.user.following_set.all())
+    )
     suggested_user_list = get_user_model().objects.all()
     suggested_user_list = suggested_user_list.exclude(pk=request.user.pk)
     suggested_user_list = suggested_user_list.exclude(pk__in=request.user.following_set.all())[:3]
     return render(request, "instagram/index.html", {
+        'post_list': post_qs,
         'suggested_user_list': suggested_user_list
     })
 
