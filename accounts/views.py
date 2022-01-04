@@ -86,6 +86,6 @@ def user_unfollow(request, username):
     request.user.following_set.remove(unfollow_user)
     unfollow_user.follower_set.remove(request.user)
 
-    messages.success(request, f'{unfollow_user}님을 언팔했습니다..')
+    messages.success(request, f'{unfollow_user}님을 언팔했습니다.')
     redirect_url = request.META.get('HTTP_REFERER', 'root')
     return redirect(redirect_url)
