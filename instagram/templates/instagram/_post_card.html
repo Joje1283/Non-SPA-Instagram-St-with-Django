@@ -31,18 +31,14 @@
         </small>
       </a>
     </div>
-  <div class="comment-list mt-3 mb-3">
-  {% for comment in post.comment_set.all %}
-    <div class="comment">
-    <strong>{{ comment.author }}</strong>
-    {{ comment.message }}
-    <small class="text-muted">{{ comment.created_at|naturaltime }}</small>
+    <div id="post-{{ post.pk }}-comment-list" class="comment-list mt-3 mb-3">
+      {% for comment in post.comment_set.all %}
+        {% include 'instagram/_comment.html' %}
+      {% endfor %}
     </div>
-  {% endfor %}
-  </div>
   </div>
   <div class="card-footer">
-    <form action="{% url 'instagram:comment_new' post.pk %}" method="POST">
+    <form id="post-{{ post.pk }}-comment-form" action="{% url 'instagram:comment_new' post.pk %}" method="POST">
       {% csrf_token %}
       {% bootstrap_form comment_form %}
       {% buttons %}
@@ -51,5 +47,26 @@
         </button>
       {% endbuttons %}
     </form>
+    <script>
+      jQuery(function () {
+        var form_id = "post-{{ post.pk }}-comment-form";
+        $("#" + form_id).submit(function (e) {
+          e.preventDefault();
+          var options = { // https://malsup.com/jquery/form/#ajaxSubmit
+            success: function (responseText, statusText, xhr, $form) {
+              console.group('ajaxSubmit response');
+              console.log(responseText);
+              console.log(statusText);
+              console.log(xhr);
+              console.log($form);
+              console.groupEnd();
+              $('#post-{{ post.pk }}-comment-list').prepend(responseText)
+            }
+          }
+          $(this).ajaxSubmit(options);
+        });
+        console.log('document ready.');
+      });
+    </script>
   </div>
 </div>
